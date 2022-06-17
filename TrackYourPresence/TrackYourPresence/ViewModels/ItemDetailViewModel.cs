@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using TrackYourPresence.Models;
 using Xamarin.Forms;
 
 namespace TrackYourPresence.ViewModels
@@ -10,14 +8,14 @@ namespace TrackYourPresence.ViewModels
     public class ItemDetailViewModel : BaseViewModel
     {
         private string itemId;
-        private string text;
+        private DateTime date;
         private string description;
         public string Id { get; set; }
 
-        public string Text
+        public DateTime Date
         {
-            get => text;
-            set => SetProperty(ref text, value);
+            get => date;
+            set => SetProperty(ref date, value);
         }
 
         public string Description
@@ -45,7 +43,7 @@ namespace TrackYourPresence.ViewModels
             {
                 var item = await DataStore.GetItemAsync(itemId);
                 Id = item.Id;
-                Text = item.Text;
+                Date = item.Date;
                 Description = item.Description;
             }
             catch (Exception)

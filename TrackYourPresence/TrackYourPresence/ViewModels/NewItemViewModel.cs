@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
 using TrackYourPresence.Models;
 using Xamarin.Forms;
 
@@ -9,7 +6,7 @@ namespace TrackYourPresence.ViewModels
 {
     public class NewItemViewModel : BaseViewModel
     {
-        private string text;
+        private DateTime date = DateTime.Today;
         private string description;
 
         public NewItemViewModel()
@@ -22,14 +19,13 @@ namespace TrackYourPresence.ViewModels
 
         private bool ValidateSave()
         {
-            return !String.IsNullOrWhiteSpace(text)
-                && !String.IsNullOrWhiteSpace(description);
+            return !String.IsNullOrWhiteSpace(description) && date != null;
         }
 
-        public string Text
+        public DateTime Date
         {
-            get => text;
-            set => SetProperty(ref text, value);
+            get => date;
+            set => SetProperty(ref date, value);
         }
 
         public string Description
@@ -52,7 +48,7 @@ namespace TrackYourPresence.ViewModels
             Item newItem = new Item()
             {
                 Id = Guid.NewGuid().ToString(),
-                Text = Text,
+                Date = Date,
                 Description = Description
             };
 
