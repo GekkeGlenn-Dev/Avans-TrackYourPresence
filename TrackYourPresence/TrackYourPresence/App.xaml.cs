@@ -14,6 +14,7 @@ namespace TrackYourPresence
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
+            DependencyService.Register<WorkDayService>();
             MainPage = new AppShell();
         }
 

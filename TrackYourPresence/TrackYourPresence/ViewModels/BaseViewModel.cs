@@ -13,13 +13,14 @@ namespace TrackYourPresence.ViewModels
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
         bool isBusy = false;
+        string title = String.Empty;
+
         public bool IsBusy
         {
             get { return isBusy; }
             set { SetProperty(ref isBusy, value); }
         }
 
-        string title = string.Empty;
         public string Title
         {
             get { return title; }

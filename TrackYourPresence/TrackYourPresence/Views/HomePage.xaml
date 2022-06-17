@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackYourPresence.Views.HomePage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:TrackYourPresence.ViewModels"
+             xmlns:model="clr-namespace:TrackYourPresence.Models"
+             x:Name="BrowseItemsPage">
+
+    <RefreshView x:DataType="local:HomeViewModel"
+                 Command="{Binding LoadWorkDaysCommand}"
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+
+        <CollectionView x:Name="CurrentWeekRangeListView"
+                        ItemsSource="{Binding WorkDays}"
+                        SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10" x:DataType="model:WorkDay" 
+                                 Orientation="Horizontal">
+                        <StackLayout Orientation="Vertical" 
+                                     HorizontalOptions="StartAndExpand">
+                            <!-- Title -->
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding Date, StringFormat='{0: dddd}'}"
+                                       Style="{DynamicResource ListItemTextStyle}"
+                                       LineBreakMode="NoWrap"
+                                       FontSize="16" />
+
+                                <Label Text="{Binding Date, StringFormat='{0: dd-MM-yyyy}'}"
+                                       Style="{DynamicResource ListItemTextStyle}"
+                                       LineBreakMode="NoWrap"
+                                       Padding="0,5"
+                                       FontSize="12" />
+                            </StackLayout>
+                            <!-- End Title -->
+                        
+                            <!-- Content -->
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding StartTime, StringFormat='Start: {0: HH:mm}' }"
+                                       Style="{DynamicResource ListItemDetailTextStyle}"
+                                       LineBreakMode="NoWrap"
+                                       FontSize="12" />
+
+                                <Label Text="{Binding StopTime, StringFormat='Stop: {0: HH:mm}' }"
+                                       Style="{DynamicResource ListItemDetailTextStyle}"
+                                       LineBreakMode="NoWrap"
+                                       FontSize="12" />
+
+                                <Label Text="{Binding PauseTime, StringFormat='Pauze: {0: HH:mm}' }"
+                                       Style="{DynamicResource ListItemDetailTextStyle}"
+                                       LineBreakMode="NoWrap"
+                                       FontSize="12" />
+                            </StackLayout>
+                            <!-- End Content -->
+                        </StackLayout>
+                        
+                        <!-- <Label Text="{Binding GetCalculatedTimeCommand}"/> -->
+
+                        <!-- <StackLayout.GestureRecognizers> -->
+                        <!--     <TapGestureRecognizer -->
+                        <!--         NumberOfTapsRequired="1" -->
+                        <!--         Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}" -->
+                        <!--         CommandParameter="{Binding .}" /> -->
+                        <!-- </StackLayout.GestureRecognizers> -->
+
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+    </RefreshView>
+
+</ContentPage>
