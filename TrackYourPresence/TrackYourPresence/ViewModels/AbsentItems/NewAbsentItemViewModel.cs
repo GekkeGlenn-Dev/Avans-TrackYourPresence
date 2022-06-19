@@ -19,7 +19,10 @@ namespace TrackYourPresence.ViewModels
 
         private bool ValidateSave()
         {
-            return !String.IsNullOrWhiteSpace(description) && date != null;
+            return !String.IsNullOrWhiteSpace(description) 
+                   && description.Length >= 15 
+                   && description.Length <= 255
+                   && date != null;
         }
 
         public DateTime Date
