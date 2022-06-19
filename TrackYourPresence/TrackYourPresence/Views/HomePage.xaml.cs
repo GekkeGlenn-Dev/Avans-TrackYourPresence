@@ -5,7 +5,7 @@ using Xamarin.Forms.Xaml;
 
 namespace TrackYourPresence.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomePage : ContentPage
     {
         HomeViewModel _viewModel;
@@ -14,7 +14,7 @@ namespace TrackYourPresence.Views
         {
             InitializeComponent();
 
-            BindingContext = _viewModel = new HomeViewModel(new WorkDayService());
+            BindingContext = _viewModel = new HomeViewModel();
         }
 
         protected override void OnAppearing()

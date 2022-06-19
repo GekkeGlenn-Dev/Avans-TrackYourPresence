@@ -2,6 +2,7 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:TrackYourPresence.Views"
+       xmlns:workdays="clr-namespace:TrackYourPresence.Views.Workdays;assembly=TrackYourPresence"
        Title="TrackYourPresence"
        x:Class="TrackYourPresence.AppShell">
 
@@ -80,6 +81,9 @@
     -->
     <FlyoutItem Title="Home" Icon="icon_about.png">
         <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Werkdagen" Icon="icon_feed.png">
+        <ShellContent Route="WorkDaysPage" ContentTemplate="{DataTemplate workdays:WorkDaysPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Afwezighied" Icon="icon_feed.png">
         <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />

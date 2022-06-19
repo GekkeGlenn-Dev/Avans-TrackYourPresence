@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TrackYourPresence.Models;
-using TrackYourPresence.ViewModels;
-using TrackYourPresence.Views;
+﻿using TrackYourPresence.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace TrackYourPresence.Views
 {

@@ -9,7 +9,7 @@
     <ContentPage.Content>
         <StackLayout Spacing="3" Padding="15">
             <Label Text="Datum" FontSize="Medium" />
-            <DatePicker FontSize="Medium"  Date="{Binding Date, Mode=TwoWay}"/>
+            <DatePicker FontSize="Medium" Date="{Binding Date, Mode=TwoWay}"/>
 
             <Label Text="Beschrijving" FontSize="Medium" />
             <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Xam.Plugin.DeviceInfo" Version="4.1.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
@@ -14,5 +15,16 @@
     <EmbeddedResource Update="Views\HomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModels\LeaveOfAbsence" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Workdays\WorkDayDetailPage.xaml.cs">
+      <DependentUpon>WorkDayDetailPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

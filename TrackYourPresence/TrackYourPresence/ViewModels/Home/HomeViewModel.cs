@@ -3,8 +3,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using TrackYourPresence.Models;
-using TrackYourPresence.Services;
+using TrackYourPresence.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace TrackYourPresence.ViewModels
 {
@@ -13,11 +14,9 @@ namespace TrackYourPresence.ViewModels
         public ObservableCollection<WorkDay> WorkDays { get; }
         public Command LoadWorkDaysCommand { get; }
 
-        private IWorkDayService workDayService;
 
-        public HomeViewModel(IWorkDayService workDayService)
+        public HomeViewModel()
         {
-            this.workDayService = workDayService;
             WorkDays = new ObservableCollection<WorkDay>();
             Title = "Home";
             LoadWorkDaysCommand = new Command(async () => await ExecuteLoadWorkDaysCommand());
@@ -30,16 +29,11 @@ namespace TrackYourPresence.ViewModels
         {
             IsBusy = true;
 
-            Debug.WriteLine("-------------START-------------");
             try
             {
                 WorkDays.Clear();
-                var workDays = await workDayService.GetItemsAsync(true);
-                foreach (var workDay in workDays)
-                {
-                    WorkDays.Add(workDay);
-                    Debug.WriteLine(workDay.Date.ToString());
-                }
+                var workDays = await WorkDayService.GetCurrentWeekAsync(true);
+                workDays.ForEach(workDay => WorkDays.Add(workDay));
             }
             catch (Exception ex)
             {
@@ -49,13 +43,21 @@ namespace TrackYourPresence.ViewModels
             {
                 IsBusy = false;
             }
-
-            Debug.WriteLine("-------------STOP-------------");
         }
 
         public void OnAppearing()
         {
             IsBusy = true;
+        }
+
+        async void OnWorkDaySelected(Item item)
+        {
+            if (item == null)
+                return;
+
+            // This will push the ItemDetailPage onto the navigation stack
+            await Shell.Current.GoToAsync(
+                $"{nameof(WorkDayDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
         }
     }
 }

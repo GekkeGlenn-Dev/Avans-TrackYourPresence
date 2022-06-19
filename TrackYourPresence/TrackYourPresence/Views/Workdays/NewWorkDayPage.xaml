@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackYourPresence.Views.Workdays.NewWorkDayPage"
+             Title="Werkdag toevoegen"
+             Shell.PresentationMode="ModalAnimated"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:workDays="clr-namespace:TrackYourPresence.ViewModels.WorkDays;assembly=TrackYourPresence"
+             ios:Page.UseSafeArea="true">
+
+    <ContentPage.Content>
+        <StackLayout Spacing="3" Padding="15" x:DataType="workDays:NewWorkDayViewModel">
+            <Label Text="Datum" FontSize="Medium" />
+            <DatePicker FontSize="Medium" Date="{Binding Date, Mode=TwoWay}" />
+
+            <Label Text="Begin tijd" FontSize="Medium" />
+            <TimePicker FontSize="Medium" Time="{Binding BeginTime, Mode=TwoWay}" />
+
+            <Label Text="Eind tijd" FontSize="Medium" />
+            <TimePicker FontSize="Medium" Time="{Binding EndTime, Mode=TwoWay}" />
+
+            <Label Text="Pauze tijd" FontSize="Medium" />
+            <TimePicker FontSize="Medium" Time="{Binding PauseTime, Mode=TwoWay}" />
+
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Annuleren" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand" />
+                <Button Text="Opslaan" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

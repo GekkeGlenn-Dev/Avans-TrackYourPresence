@@ -21,14 +21,17 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10" x:DataType="model:Item">
+                        
                         <Label Text="{Binding Date, StringFormat='{0: dd MMM yyyy}'}" 
-                            LineBreakMode="NoWrap" 
-                            Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="16" />
+                               LineBreakMode="NoWrap" 
+                               Style="{DynamicResource ListItemTextStyle}" 
+                               FontSize="16" />
+                        
                         <Label Text="{Binding Description}" 
                             LineBreakMode="NoWrap"
                             Style="{DynamicResource ListItemDetailTextStyle}"
                             FontSize="13" />
+                        
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer 
                                 NumberOfTapsRequired="1"
@@ -36,6 +39,7 @@
                                 CommandParameter="{Binding .}">
                             </TapGestureRecognizer>
                         </StackLayout.GestureRecognizers>
+                        
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
