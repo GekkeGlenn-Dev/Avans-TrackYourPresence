@@ -4,12 +4,12 @@ using Xamarin.Forms;
 
 namespace TrackYourPresence.ViewModels
 {
-    public class NewItemViewModel : BaseViewModel
+    public class NewAbsentItemViewModel : BaseViewModel
     {
         private DateTime date = DateTime.Today;
         private string description;
 
-        public NewItemViewModel()
+        public NewAbsentItemViewModel()
         {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
@@ -45,14 +45,14 @@ namespace TrackYourPresence.ViewModels
 
         private async void OnSave()
         {
-            Item newItem = new Item()
+            AbsentItem newAbsentItem = new AbsentItem()
             {
                 Id = Guid.NewGuid().ToString(),
                 Date = Date,
                 Description = Description
             };
 
-            await DataStore.AddItemAsync(newItem);
+            await DataStore.AddItemAsync(newAbsentItem);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

@@ -26,5 +26,17 @@
       <DependentUpon>WorkDayDetailPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Absents\AbsentItemDetailPage.xaml.cs">
+      <DependentUpon>ItemDetailPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Absents\AbsentItemsPage.xaml.cs">
+      <DependentUpon>ItemsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Absents\NewAbsentItemPage.xaml.cs">
+      <DependentUpon>NewItemPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

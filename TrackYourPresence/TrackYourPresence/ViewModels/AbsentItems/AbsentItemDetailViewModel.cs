@@ -5,7 +5,7 @@ using Xamarin.Forms;
 namespace TrackYourPresence.ViewModels
 {
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
-    public class ItemDetailViewModel : BaseViewModel
+    public class AbsentItemDetailViewModel : BaseViewModel
     {
         private string itemId;
         private DateTime date;

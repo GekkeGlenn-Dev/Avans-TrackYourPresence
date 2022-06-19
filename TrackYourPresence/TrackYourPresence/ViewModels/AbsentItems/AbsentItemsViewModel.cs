@@ -8,22 +8,22 @@ using Xamarin.Forms;
 
 namespace TrackYourPresence.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class AbsentItemsViewModel : BaseViewModel
     {
-        private Item _selectedItem;
+        private AbsentItem _selectedAbsentItem;
 
-        public ObservableCollection<Item> Items { get; }
+        public ObservableCollection<AbsentItem> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        public Command<AbsentItem> ItemTapped { get; }
 
-        public ItemsViewModel()
+        public AbsentItemsViewModel()
         {
             Title = "Afwezigheid";
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<AbsentItem>();
             
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-            ItemTapped = new Command<Item>(OnItemSelected);
+            ItemTapped = new Command<AbsentItem>(OnItemSelected);
             AddItemCommand = new Command(OnAddItem);
         }
 
@@ -53,31 +53,31 @@ namespace TrackYourPresence.ViewModels
         public void OnAppearing()
         {
             IsBusy = true;
-            SelectedItem = null;
+            SelectedAbsentItem = null;
         }
 
-        public Item SelectedItem
+        public AbsentItem SelectedAbsentItem
         {
-            get => _selectedItem;
+            get => _selectedAbsentItem;
             set
             {
-                SetProperty(ref _selectedItem, value);
+                SetProperty(ref _selectedAbsentItem, value);
                 OnItemSelected(value);
             }
         }
 
         private async void OnAddItem(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
+            await Shell.Current.GoToAsync(nameof(NewAbsentItemPage));
         }
 
-        async void OnItemSelected(Item item)
+        async void OnItemSelected(AbsentItem absentItem)
         {
-            if (item == null)
+            if (absentItem == null)
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(AbsentItemDetailPage)}?{nameof(AbsentItemDetailViewModel.ItemId)}={absentItem.Id}");
         }
     }
 }

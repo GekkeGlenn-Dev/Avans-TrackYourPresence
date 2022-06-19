@@ -21,8 +21,8 @@ namespace TrackYourPresence
         private void RegisterRoutes()
         {
             // Absent
-            Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+            Routing.RegisterRoute(nameof(AbsentItemDetailPage), typeof(AbsentItemDetailPage));
+            Routing.RegisterRoute(nameof(NewAbsentItemPage), typeof(NewAbsentItemPage));
             
             // WorkDays
             Routing.RegisterRoute(nameof(WorkDayDetailPage), typeof(WorkDayDetailPage));
