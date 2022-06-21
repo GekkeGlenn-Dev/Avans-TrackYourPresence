@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:leaveOfAbsences="clr-namespace:TrackYourPresence.ViewModels.LeaveOfAbsences;assembly=TrackYourPresence"
+             xmlns:models="clr-namespace:TrackYourPresence.Models;assembly=TrackYourPresence"
+             x:Class="TrackYourPresence.Views.LeaveOfAbsences.LeaveOfAbsencesPage"
+             Title="{Binding Title}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Toevoegen" Command="{Binding AddLeaveOfAbsenceCommand}" />
+    </ContentPage.ToolbarItems>
+    
+    <RefreshView x:DataType="leaveOfAbsences:LeaveOfAbsencesViewModal" Command="{Binding LoadLeaveOfAbsenceCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="ItemsListView"
+                        ItemsSource="{Binding LeaveOfAbsences}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10" x:DataType="models:LeaveOfAbsence">
+                        
+                        <StackLayout>
+                            <Label Text="{Binding TotalOfDays, StringFormat='{0} Dagen'}"
+                                   LineBreakMode="NoWrap"
+                                   Style="{DynamicResource ListItemTextStyle}"
+                                   FontSize="16" />
+                            
+                            <StackLayout>
+                                <Label Text="{Binding StartDate, StringFormat='van: {0: dd MMM yyyy}'}"
+                                       LineBreakMode="NoWrap"
+                                       Style="{DynamicResource ListItemTextStyle}"
+                                       FontSize="12" />
+                                <Label Text="{Binding EndDate, StringFormat='tot: {0: dd MMM yyyy}'}"
+                                       LineBreakMode="NoWrap"
+                                       Style="{DynamicResource ListItemTextStyle}"
+                                       FontSize="12" />
+                            </StackLayout>
+                        </StackLayout>
+                        
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type leaveOfAbsences:LeaveOfAbsencesViewModal}}, Path=LeaveOfAbsenceTapped}"		
+                                CommandParameter="{Binding .}">
+                            </TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                        
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>
+

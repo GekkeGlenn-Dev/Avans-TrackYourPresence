@@ -3,6 +3,7 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:TrackYourPresence.Views"
        xmlns:workdays="clr-namespace:TrackYourPresence.Views.Workdays;assembly=TrackYourPresence"
+       xmlns:leaveOfAbsences="clr-namespace:TrackYourPresence.Views.LeaveOfAbsences;assembly=TrackYourPresence"
        Title="TrackYourPresence"
        x:Class="TrackYourPresence.AppShell">
 
@@ -86,7 +87,10 @@
         <ShellContent Route="WorkDaysPage" ContentTemplate="{DataTemplate workdays:WorkDaysPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Afwezighied" Icon="icon_feed.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:AbsentItemsPage}" />
+        <ShellContent Route="AbsenceItemsPage" ContentTemplate="{DataTemplate local:AbsentItemsPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Verlof" Icon="icon_feed.png">
+        <ShellContent Route="LeaveOfAbsencePage" ContentTemplate="{DataTemplate leaveOfAbsences:LeaveOfAbsencesPage}" />
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->

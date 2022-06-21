@@ -11,7 +11,7 @@ namespace TrackYourPresence.Services
     public class WorkDayService : IWorkDayService
     {
         private IEnumerable<WorkDay> currentWeek;
-        private List<WorkDay> workDays = new List<WorkDay>();
+        private List<WorkDay> workDays = new();
 
         public WorkDayService()
         {

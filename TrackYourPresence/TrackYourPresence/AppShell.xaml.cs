@@ -1,5 +1,6 @@
 ﻿using System;
 using TrackYourPresence.Views;
+using TrackYourPresence.Views.LeaveOfAbsences;
 using TrackYourPresence.Views.Workdays;
 using Xamarin.Forms;
 
@@ -23,10 +24,14 @@ namespace TrackYourPresence
             // Absent
             Routing.RegisterRoute(nameof(AbsentItemDetailPage), typeof(AbsentItemDetailPage));
             Routing.RegisterRoute(nameof(NewAbsentItemPage), typeof(NewAbsentItemPage));
-            
+
             // WorkDays
             Routing.RegisterRoute(nameof(WorkDayDetailPage), typeof(WorkDayDetailPage));
             Routing.RegisterRoute(nameof(NewWorkDayPage), typeof(NewWorkDayPage));
+
+            // LeaveOfAbsence
+            Routing.RegisterRoute(nameof(LeaveOfAbsenceDetailpage), typeof(LeaveOfAbsenceDetailpage));
+            Routing.RegisterRoute(nameof(NewLeaveOfAbsencePage), typeof(NewLeaveOfAbsencePage));
         }
     }
 }

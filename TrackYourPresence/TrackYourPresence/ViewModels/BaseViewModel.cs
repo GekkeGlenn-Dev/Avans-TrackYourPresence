@@ -12,6 +12,7 @@ namespace TrackYourPresence.ViewModels
     {
         public IDataStore<AbsentItem> DataStore => DependencyService.Get<IDataStore<AbsentItem>>();
         public IWorkDayService WorkDayService => DependencyService.Get<IWorkDayService>();
+        public ILeaveOfAbsenceService LeaveOfAbsenceService => DependencyService.Get<ILeaveOfAbsenceService>();
 
         bool isBusy = false;
         string title = String.Empty;

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using TrackYourPresence.Services;
 using Plugin.DeviceInfo;
+using TrackYourPresence.Models;
 using TrackYourPresence.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,14 +17,15 @@ namespace TrackYourPresence
         public App()
         {
             InitializeComponent();
+            RegisterServices();
 
-            DependencyService.Register<MockDataStore>();
-            DependencyService.Register<WorkDayService>();
             MainPage = new AppShell();
         }
 
         protected override void OnStart()
         {
+            Debug.WriteLine(DateTime.Today);
+            Debug.WriteLine(LeaveOfAbsence.FooCalculate(10, DateTime.Today));
         }
 
         protected override void OnSleep()
@@ -32,6 +34,14 @@ namespace TrackYourPresence
 
         protected override void OnResume()
         {
+        }
+
+        private void RegisterServices()
+        {
+            DependencyService.Register<AuthenticationService>();
+            DependencyService.Register<MockDataStore>();
+            DependencyService.Register<WorkDayService>();
+            DependencyService.Register<LeaveOfAbsenceService>();
         }
     }
 }

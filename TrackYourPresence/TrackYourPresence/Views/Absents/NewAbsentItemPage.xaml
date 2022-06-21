@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TrackYourPresence.Views.NewAbsentItemPage"
              Shell.PresentationMode="ModalAnimated"
-             Title="New Item"
+             Title="Afwezigheid noteren"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true">
     <ContentPage.Content>
