@@ -1,52 +1,27 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using TrackYourPresence.Models;
 using Xamarin.Forms.Internals;
 
 namespace TrackYourPresence.Services
 {
-    public class WorkDayService : IWorkDayService
+    public class WorkDayService : AbstractServiceBase, IWorkDayService
     {
-        private IEnumerable<WorkDay> currentWeek;
-        private List<WorkDay> workDays = new();
-
-        public WorkDayService()
-        {
-            // todo REMOVE WHEN WORKING WITH API
-            // get current week range.
-            var weekRange = GetDateTimeCurrentWeekRange();
-            var workDayCurrentWeekRange = new List<WorkDay>();
-
-            // Make based on week range the modals.
-            weekRange.ForEach(date =>
-                workDayCurrentWeekRange.Add(new WorkDay(date) {Uuid = Guid.NewGuid().ToString()}));
-            currentWeek = workDayCurrentWeekRange;
-            // todo END REMOVE WHEN WORKING WITH API
-        }
-
         public async Task<bool> AddItemAsync(WorkDay item)
         {
-            if (String.IsNullOrEmpty(item.Uuid))
-            {
-                item.Uuid = Guid.NewGuid().ToString();
-            }
-
-            workDays.Add(item);
-            return true;
+            var response = await HttpPost("https://10.0.2.2:7013/WorkDay/create", item);
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> UpdateItemAsync(WorkDay item)
         {
-            var workDay = await GetItemAsync(item.Uuid);
-
-            workDay.Date = item.Date;
-            workDay.StartTime = item.StartTime;
-            workDay.StopTime = item.StopTime;
-            workDay.PauseTime = item.PauseTime;
-            return true;
+            var response = await HttpPut("https://10.0.2.2:7013/WorkDay/update", item);
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteItemAsync(string id)
@@ -56,55 +31,68 @@ namespace TrackYourPresence.Services
 
         public async Task<WorkDay> GetItemAsync(string id)
         {
-            return await Task.FromResult(
-                workDays.First(wd => wd.Uuid == id)
-            );
+            var response = await HttpGet("https://10.0.2.2:7013/WorkDay/find?uuid=" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    Debug.WriteLine(await response.Content.ReadAsStringAsync());
+                    Debug.WriteLine(JsonConvert.DeserializeObject<WorkDay>(
+                        await response.Content.ReadAsStringAsync()
+                    ));
+                    return await Task.FromResult(JsonConvert.DeserializeObject<WorkDay>(
+                        await response.Content.ReadAsStringAsync()
+                    ));
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                }
+            }
+
+            return await Task.FromResult(new WorkDay());
         }
 
         public async Task<IEnumerable<WorkDay>> GetItemsAsync(bool forceRefresh = false)
         {
-            return await Task.FromResult(workDays);
+            var response = await HttpGet("https://10.0.2.2:7013/WorkDay/all");
+
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    return await Task.FromResult(JsonConvert.DeserializeObject<List<WorkDay>>(
+                        await response.Content.ReadAsStringAsync()
+                    ));
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                }
+            }
+
+            return await Task.FromResult(new List<WorkDay>());
         }
 
         public async Task<IEnumerable<WorkDay>> GetCurrentWeekAsync(bool forceRefresh = false)
         {
-            var currentWeekNew = new List<WorkDay>();
+            var response = await HttpGet("https://10.0.2.2:7013/WorkDay/currentWeek");
 
-            currentWeek.ForEach(wd =>
+            if (response.IsSuccessStatusCode)
             {
-                WorkDay result = null;
                 try
                 {
-                    result = workDays.FirstOrDefault(
-                        d => d.Date.Year == wd.Date.Year
-                             && d.Date.Month == wd.Date.Month
-                             && d.Date.Day == wd.Date.Day
-                    );
+                    return await Task.FromResult(JsonConvert.DeserializeObject<List<WorkDay>>(
+                        await response.Content.ReadAsStringAsync()
+                    ));
                 }
                 catch (Exception e)
                 {
-                    // ignored
+                    Debug.WriteLine(e);
                 }
+            }
 
-                currentWeekNew.Add(result ?? wd);
-            });
-            
-            return await Task.FromResult(currentWeekNew);
-
-            // todo lateron when working with api:
-
-            // get current week range.
-            var weekRange = GetDateTimeCurrentWeekRange();
-            var workDayCurrentWeekRange = new List<WorkDay>();
-
-            // Make based on week range the modals.
-            weekRange.ForEach(date => workDayCurrentWeekRange.Add(new WorkDay(date)));
-
-            // TODO Do api or DB call.
-            // TODO update created modals with data if they exist.
-
-            // return observable collection
-            return await Task.FromResult(workDayCurrentWeekRange);
+            return await Task.FromResult(new List<WorkDay>());
         }
 
 

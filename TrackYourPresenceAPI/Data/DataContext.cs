@@ -26,5 +26,6 @@ namespace TrackYourPresenceAPI.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<WorkDay> WorkDays { get; set; }
     }
 }

@@ -69,7 +69,8 @@ namespace TrackYourPresence.ViewModels.WorkDays
                 Debug.WriteLine("Failed to Load Workday");
             }
             
-            Debug.WriteLine(_workDay);
+            Debug.WriteLine(_workDay.Uuid);
+            Debug.WriteLine(_workDay.Date);
         }
 
         private async void OnCancel()

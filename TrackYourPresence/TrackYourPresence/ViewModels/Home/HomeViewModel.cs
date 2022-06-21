@@ -57,7 +57,7 @@ namespace TrackYourPresence.ViewModels
 
             // This will push the ItemDetailPage onto the navigation stack
             await Shell.Current.GoToAsync(
-                $"{nameof(WorkDayDetailPage)}?{nameof(AbsentItemDetailViewModel.ItemId)}={absentItem.Id}");
+                $"{nameof(WorkDayDetailPage)}?{nameof(AbsentItemDetailViewModel.ItemId)}={absentItem.Uuid}");
         }
     }
 }

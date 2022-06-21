@@ -14,12 +14,12 @@ namespace TrackYourPresence.Services
         {
             items = new List<AbsentItem>()
             {
-                new AbsentItem { Id = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." },
-                new AbsentItem { Id = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." },
-                new AbsentItem { Id = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." },
-                new AbsentItem { Id = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." },
-                new AbsentItem { Id = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." },
-                new AbsentItem { Id = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." }
+                new AbsentItem { Uuid = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." },
+                new AbsentItem { Uuid = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." },
+                new AbsentItem { Uuid = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." },
+                new AbsentItem { Uuid = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." },
+                new AbsentItem { Uuid = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." },
+                new AbsentItem { Uuid = Guid.NewGuid().ToString(), Date = DateTime.Today, Description="This is an item description." }
             };
         }
 
@@ -32,7 +32,7 @@ namespace TrackYourPresence.Services
 
         public async Task<bool> UpdateItemAsync(AbsentItem absentItem)
         {
-            var oldItem = items.Where((AbsentItem arg) => arg.Id == absentItem.Id).FirstOrDefault();
+            var oldItem = items.Where((AbsentItem arg) => arg.Uuid == absentItem.Uuid).FirstOrDefault();
             items.Remove(oldItem);
             items.Add(absentItem);
 
@@ -41,7 +41,7 @@ namespace TrackYourPresence.Services
 
         public async Task<bool> DeleteItemAsync(string id)
         {
-            var oldItem = items.Where((AbsentItem arg) => arg.Id == id).FirstOrDefault();
+            var oldItem = items.Where((AbsentItem arg) => arg.Uuid == id).FirstOrDefault();
             items.Remove(oldItem);
 
             return await Task.FromResult(true);
@@ -49,7 +49,7 @@ namespace TrackYourPresence.Services
 
         public async Task<AbsentItem> GetItemAsync(string id)
         {
-            return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
+            return await Task.FromResult(items.FirstOrDefault(s => s.Uuid == id));
         }
 
         public async Task<IEnumerable<AbsentItem>> GetItemsAsync(bool forceRefresh = false)

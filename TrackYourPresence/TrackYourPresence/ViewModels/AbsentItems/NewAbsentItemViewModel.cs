@@ -50,7 +50,7 @@ namespace TrackYourPresence.ViewModels
         {
             AbsentItem newAbsentItem = new AbsentItem()
             {
-                Id = Guid.NewGuid().ToString(),
+                Uuid = Guid.NewGuid().ToString(),
                 Date = Date,
                 Description = Description
             };
