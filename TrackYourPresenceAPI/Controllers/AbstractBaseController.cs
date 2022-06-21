@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TrackYourPresenceAPI.Data;
@@ -7,27 +8,28 @@ namespace TrackYourPresenceAPI.Controllers
     public abstract class AbstractBaseController : ControllerBase
     {
         private DataContext _context;
-        
+
         protected AbstractBaseController(DataContext context)
         {
             _context = context;
         }
-        
-        protected bool ValidateRequest()
+
+        protected Task<bool> ValidateRequest()
         {
-            var headers = Request.Headers;
-
-            var apiToken = Request.Headers["api-token"];
-
-            // GetContext().Users.FirstOrDefaultAsync(u => u.);
+            var apiToken = "emptiness"; 
+            var user = GetContext().Users.SingleOrDefaultAsync(u => u.DeviceId.ToString() == apiToken);
             
-
-            return true;
+            return Task.FromResult(user != null);
         }
 
         protected DataContext GetContext()
         {
             return _context;
+        }
+
+        protected string GetDeviceId()
+        {
+            return Request.Headers["api-token"];
         }
     }
 }

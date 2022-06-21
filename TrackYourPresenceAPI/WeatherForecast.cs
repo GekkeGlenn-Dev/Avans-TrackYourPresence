@@ -1,3 +1,5 @@
+using System;
+
 namespace TrackYourPresenceAPI
 {
     public class WeatherForecast

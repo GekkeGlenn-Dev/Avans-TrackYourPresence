@@ -1,13 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web.Resource;
 
 namespace TrackYourPresenceAPI.Controllers
 {
-    [Authorize]
-    [ApiController]
-    [Route("[controller]")]
-    [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    // [Authorize]
+    // [ApiController]
+    // [Route("[controller]")]
+    // [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -22,7 +26,7 @@ namespace TrackYourPresenceAPI.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        // [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
