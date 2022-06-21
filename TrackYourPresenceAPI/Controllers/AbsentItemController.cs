@@ -1,26 +1,17 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TrackYourPresence.Models;
 using TrackYourPresenceAPI.Data;
-using TrackYourPresenceAPI.Models;
 
 namespace TrackYourPresenceAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WorkDayController : AbstractBaseController
+    public class AbsentItemController : AbstractBaseController
     {
-        public WorkDayController(DataContext context)
+        public AbsentItemController(DataContext context)
             : base(context)
         {
-        }
-
-        [HttpGet]
-        [Route("currentWeek")]
-        public async Task<IActionResult> CurrentWeek()
-        {
-            var deviceId = GetDeviceId();
-            var currentWeek = await GetWorkDayService().GetCurrentWeek();
-            return Ok(ToJson(currentWeek));
         }
 
         [HttpGet]
@@ -28,7 +19,7 @@ namespace TrackYourPresenceAPI.Controllers
         public async Task<IActionResult> All()
         {
             var deviceId = GetDeviceId();
-            var allWorkDays = await GetWorkDayService().GetAllAsync();
+            var allWorkDays = await GetAbsentItemService().GetAllAsync();
             return Ok(ToJson(allWorkDays));
         }
 
@@ -37,25 +28,25 @@ namespace TrackYourPresenceAPI.Controllers
         public async Task<IActionResult> Find(string uuid)
         {
             var deviceId = GetDeviceId();
-            var workDay = await GetWorkDayService().FindAsync(uuid);
+            var workDay = await GetAbsentItemService().FindAsync(uuid);
             return workDay != null ? Ok(ToJson(workDay)) : NotFound();
         }
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Create([FromBody] WorkDay workDay)
+        public async Task<IActionResult> Create([FromBody] AbsentItem item)
         {
             var deviceId = GetDeviceId();
-            var result = await GetWorkDayService().CreateAsync(workDay);
+            var result = await GetAbsentItemService().CreateAsync(item);
             return Ok(ToJson(result));
         }
 
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Update([FromBody] WorkDay workDay)
+        public async Task<IActionResult> Update([FromBody] AbsentItem item)
         {
             var deviceId = GetDeviceId();
-            var result = await GetWorkDayService().UpdateAsync(workDay);
+            var result = await GetAbsentItemService().UpdateAsync(item);
             return Ok(ToJson(result));
         }
     }

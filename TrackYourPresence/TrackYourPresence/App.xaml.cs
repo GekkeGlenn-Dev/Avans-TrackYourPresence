@@ -24,8 +24,6 @@ namespace TrackYourPresence
 
         protected override void OnStart()
         {
-            Debug.WriteLine(DateTime.Today);
-            Debug.WriteLine(LeaveOfAbsence.FooCalculate(10, DateTime.Today));
         }
 
         protected override void OnSleep()
@@ -39,7 +37,7 @@ namespace TrackYourPresence
         private void RegisterServices()
         {
             DependencyService.Register<AuthenticationService>();
-            DependencyService.Register<MockDataStore>();
+            DependencyService.Register<AbsentItemService>();
             DependencyService.Register<WorkDayService>();
             DependencyService.Register<LeaveOfAbsenceService>();
         }

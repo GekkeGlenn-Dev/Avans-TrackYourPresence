@@ -10,11 +10,13 @@ namespace TrackYourPresenceAPI.Controllers
     {
         private DataContext _context;
         private IWorkDayService _workDayService;
+        private IAbsentItemService _absentItemService;
 
         protected AbstractBaseController(DataContext context)
         {
             _context = context;
             _workDayService = new WorkDayService(context);
+            _absentItemService = new AbsentItemService(context);
         }
 
         protected Task<bool> ValidateRequest()
@@ -33,6 +35,11 @@ namespace TrackYourPresenceAPI.Controllers
         protected IWorkDayService GetWorkDayService()
         {
             return _workDayService;
+        }
+
+        protected IAbsentItemService GetAbsentItemService()
+        {
+            return _absentItemService;
         }
 
         protected string GetDeviceId()

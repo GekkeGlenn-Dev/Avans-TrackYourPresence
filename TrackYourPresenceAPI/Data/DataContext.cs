@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using TrackYourPresence.Models;
 using TrackYourPresenceAPI.Models;
 
 namespace TrackYourPresenceAPI.Data
@@ -12,20 +13,8 @@ namespace TrackYourPresenceAPI.Data
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // configure one-to-many relationship
-            // modelBuilder.Entity<Viewing>()
-            //     .HasOne<Movie>(v => v.Movie);
-            //
-            // modelBuilder.Entity<Viewing>()
-            //     .HasOne<Theatre>(v => v.Theatre);
-            //
-            // modelBuilder.Entity<Viewing>()
-            //     .HasMany<ViewingSeat>(v => v.ViewingSeats);
-        }
-
         public DbSet<User> Users { get; set; }
         public DbSet<WorkDay> WorkDays { get; set; }
+        public DbSet<AbsentItem> AbsentItems { get; set; }
     }
 }

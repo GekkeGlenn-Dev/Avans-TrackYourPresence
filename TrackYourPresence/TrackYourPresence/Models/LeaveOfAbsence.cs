@@ -21,10 +21,6 @@ namespace TrackYourPresence.Models
         {
             var vacationAmountInHours = days * _hoursOfWorkDay;
             var hoursToEndDate = GetTotalHours(vacationAmountInHours);
-
-            Debug.WriteLine(vacationAmountInHours);
-            Debug.WriteLine(hoursToEndDate);
-
             return beginDate.AddHours(hoursToEndDate);
         }
 

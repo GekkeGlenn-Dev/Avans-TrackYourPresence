@@ -59,7 +59,6 @@ namespace TrackYourPresence.ViewModels.WorkDays
 
         private async void LoadWorkDay(string workdayId)
         {
-            Debug.WriteLine(workdayId);
             try
             {
                 _workDay = await WorkDayService.GetItemAsync(workdayId);
@@ -68,9 +67,6 @@ namespace TrackYourPresence.ViewModels.WorkDays
             {
                 Debug.WriteLine("Failed to Load Workday");
             }
-            
-            Debug.WriteLine(_workDay.Uuid);
-            Debug.WriteLine(_workDay.Date);
         }
 
         private async void OnCancel()

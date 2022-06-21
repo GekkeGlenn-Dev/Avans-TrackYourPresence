@@ -36,10 +36,6 @@ namespace TrackYourPresence.Services
             {
                 try
                 {
-                    Debug.WriteLine(await response.Content.ReadAsStringAsync());
-                    Debug.WriteLine(JsonConvert.DeserializeObject<WorkDay>(
-                        await response.Content.ReadAsStringAsync()
-                    ));
                     return await Task.FromResult(JsonConvert.DeserializeObject<WorkDay>(
                         await response.Content.ReadAsStringAsync()
                     ));
@@ -93,31 +89,6 @@ namespace TrackYourPresence.Services
             }
 
             return await Task.FromResult(new List<WorkDay>());
-        }
-
-
-        private static IEnumerable<DateTime> GetDateTimeCurrentWeekRange()
-        {
-            var startOfWeek = DateTime.Today.DayOfWeek == DayOfWeek.Sunday
-                ? DateTime.Today.AddDays(-7).AddDays(GetSubDayToFirstWeekDay())
-                : DateTime.Today.AddDays(GetSubDayToFirstWeekDay());
-
-            IList<DateTime> weekDateTimeRange = new List<DateTime>() {startOfWeek};
-
-            for (var i = 1; i < 7; i++)
-            {
-                weekDateTimeRange.Add(
-                    new DateTime(startOfWeek.Year, startOfWeek.Month, startOfWeek.Day + i)
-                );
-            }
-
-            return weekDateTimeRange;
-        }
-
-        private static int GetSubDayToFirstWeekDay()
-        {
-            CultureInfo.CurrentCulture = new CultureInfo("nl-NL", false);
-            return CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek - DateTime.Today.DayOfWeek;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace TrackYourPresence.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<AbsentItem> DataStore => DependencyService.Get<IDataStore<AbsentItem>>();
+        public IAbsentItemService AbsentItemService => DependencyService.Get<IAbsentItemService>();
         public IWorkDayService WorkDayService => DependencyService.Get<IWorkDayService>();
         public ILeaveOfAbsenceService LeaveOfAbsenceService => DependencyService.Get<ILeaveOfAbsenceService>();
 

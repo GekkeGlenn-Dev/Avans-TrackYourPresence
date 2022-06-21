@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using TrackYourPresence.Models;
 using Xamarin.Forms;
 
@@ -55,7 +56,7 @@ namespace TrackYourPresence.ViewModels
                 Description = Description
             };
 
-            await DataStore.AddItemAsync(newAbsentItem);
+            await AbsentItemService.AddItemAsync(newAbsentItem);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

@@ -38,7 +38,7 @@ namespace TrackYourPresence.ViewModels
         {
             try
             {
-                var item = await DataStore.GetItemAsync(itemId);
+                var item = await AbsentItemService.GetItemAsync(itemId);
                 Id = item.Uuid;
                 Date = item.Date;
                 Description = item.Description;
