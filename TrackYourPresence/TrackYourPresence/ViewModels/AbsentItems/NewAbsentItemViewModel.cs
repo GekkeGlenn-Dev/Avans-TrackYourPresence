@@ -49,14 +49,16 @@ namespace TrackYourPresence.ViewModels
 
         private async void OnSave()
         {
-            AbsentItem newAbsentItem = new AbsentItem()
+            var newAbsentItem = new AbsentItem
             {
-                Uuid = Guid.NewGuid().ToString(),
                 Date = Date,
                 Description = Description
             };
 
-            await AbsentItemService.AddItemAsync(newAbsentItem);
+            if (await AbsentItemService.AddItemAsync(newAbsentItem))
+            {
+                Debug.WriteLine("Failed to create");
+            }
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

@@ -10,7 +10,7 @@ namespace TrackYourPresence.ViewModels
         private string itemId;
         private DateTime date;
         private string description;
-        public string Id { get; set; }
+        public string Uuid { get; set; }
 
         public DateTime Date
         {
@@ -34,12 +34,12 @@ namespace TrackYourPresence.ViewModels
             }
         }
 
-        public async void LoadItemId(string itemId)
+        public async void LoadItemId(string uuid)
         {
             try
             {
-                var item = await AbsentItemService.GetItemAsync(itemId);
-                Id = item.Uuid;
+                var item = await AbsentItemService.GetItemAsync(uuid);
+                Uuid = item.Uuid.ToString();
                 Date = item.Date;
                 Description = item.Description;
             }

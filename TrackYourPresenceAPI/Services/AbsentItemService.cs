@@ -43,8 +43,10 @@ namespace TrackYourPresenceAPI.Services
 
             if (user == null || data.Entity == null)
             {
+                Console.WriteLine("ELLOR");
                 throw new Exception();
             }
+            Console.WriteLine("CONITUNE");
 
             data.Entity.User = user;
             data.Entity.Uuid = Guid.NewGuid();

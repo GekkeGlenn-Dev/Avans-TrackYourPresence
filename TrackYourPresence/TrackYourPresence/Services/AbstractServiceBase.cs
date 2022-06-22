@@ -69,6 +69,7 @@ namespace TrackYourPresence.Services
 
         protected Task<HttpResponseMessage> HttpPut(Uri uri, T? obj, Guid? guid)
         {
+            Debug.WriteLine(ToDataObject(obj, guid));
             return HttpPut(uri, ToDataObject(obj, guid));
         }
 
