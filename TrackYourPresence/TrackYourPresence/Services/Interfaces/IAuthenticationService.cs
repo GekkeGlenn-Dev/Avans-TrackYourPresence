@@ -7,5 +7,6 @@ namespace TrackYourPresence.Services
     {
         Task LoginUser();
         Task<User> GetUser();
+        void UpdateUser(User user);
     }
 }

@@ -9,12 +9,13 @@ namespace TrackYourPresenceAPI.Data
     {
         protected readonly IConfiguration Configuration;
 
-        public DataContext(DbContextOptions<DataContext> options): base(options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<WorkDay> WorkDays { get; set; }
         public DbSet<AbsentItem> AbsentItems { get; set; }
+        public DbSet<LeaveOfAbsence> LeaveOfAbsences { get; set; }
     }
 }

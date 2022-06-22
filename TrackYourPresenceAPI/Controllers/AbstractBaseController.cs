@@ -12,6 +12,7 @@ namespace TrackYourPresenceAPI.Controllers
         private IAuthenticationService _authenticationService;
         private IWorkDayService _workDayService;
         private IAbsentItemService _absentItemService;
+        private ILeaveOfAbsenceService _leaveOfAbsenceService;
 
         protected AbstractBaseController(DataContext context)
         {
@@ -19,6 +20,7 @@ namespace TrackYourPresenceAPI.Controllers
             _authenticationService = new AuthenticationService(context);
             _workDayService = new WorkDayService(context, GetAuthenticationService());
             _absentItemService = new AbsentItemService(context, GetAuthenticationService());
+            _leaveOfAbsenceService = new LeaveOfAbsenceService(context, GetAuthenticationService());
         }
 
         protected async Task<bool> ValidateRequest()
@@ -47,6 +49,11 @@ namespace TrackYourPresenceAPI.Controllers
         protected IAuthenticationService GetAuthenticationService()
         {
             return _authenticationService;
+        }
+
+        protected ILeaveOfAbsenceService GetLeaveOfAbsenceService()
+        {
+            return _leaveOfAbsenceService;
         }
 
         protected string ToJson(object obj)

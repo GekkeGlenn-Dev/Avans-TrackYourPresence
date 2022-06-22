@@ -20,11 +20,18 @@ namespace TrackYourPresenceAPI.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] Data<object> data)
         {
-            Console.WriteLine("CREATE URSER");
-            Console.WriteLine(data.DeviceId);
             var user = await GetAuthenticationService().LoginUser(data.DeviceId);
-            Console.WriteLine("CREATE URSER");
             return Ok(ToJson(user));
+        }
+
+        [HttpPost]
+        [Route("update")]
+        public async Task<IActionResult> Login([FromBody] Data<User> data)
+        {
+            var user = await GetAuthenticationService().UpdateUser(data);
+            return user != null
+                ? Ok(ToJson(user))
+                : NotFound();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace TrackYourPresence.ViewModels
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
         public Command<AbsentItem> ItemTapped { get; }
+        
 
         public AbsentItemsViewModel()
         {

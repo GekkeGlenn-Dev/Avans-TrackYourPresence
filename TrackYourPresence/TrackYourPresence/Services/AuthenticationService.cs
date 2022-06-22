@@ -25,7 +25,7 @@ namespace TrackYourPresence.Services
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Debug.WriteLine(e);
                 }
             }
             else
@@ -44,6 +44,26 @@ namespace TrackYourPresence.Services
             }
 
             return _user;
+        }
+
+        public async void UpdateUser(User user)
+        {
+            var response = await HttpPost(App.GetApiUrl("/Authentication/login"), user, null);
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    _user = FromJson<User>(await response.Content.ReadAsStringAsync());
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Status code: " + response.StatusCode);
+            }
         }
     }
 }

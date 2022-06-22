@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using TrackYourPresence.Models;
 using TrackYourPresenceAPI.Data;
 using TrackYourPresenceAPI.DataObjects;
+using TrackYourPresenceAPI.Models;
 
 namespace TrackYourPresenceAPI.Services
 {
-    public class AbsentItemService : AbstractBaseService, IAbsentItemService
+    public class LeaveOfAbsenceService : AbstractBaseService, ILeaveOfAbsenceService
     {
         private readonly IAuthenticationService _authenticationService;
 
-        public AbsentItemService(DataContext context, IAuthenticationService authenticationService) : base(context)
+        public LeaveOfAbsenceService(DataContext context, IAuthenticationService authenticationService) : base(context)
         {
             this._authenticationService = authenticationService;
         }
 
-        public async Task<IEnumerable<AbsentItem>> GetAllAsync(Data<AbsentItem> data)
+        public async Task<IEnumerable<LeaveOfAbsence>> GetAllAsync(Data<LeaveOfAbsence> data)
         {
-            return await Context.AbsentItems.Where(i => i.User.DeviceId == data.DeviceId).ToListAsync();
+            return await Context.LeaveOfAbsences.Where(lof => lof.User.DeviceId == data.DeviceId).ToListAsync();
         }
 
-        public async Task<AbsentItem?> FindAsync(Data<AbsentItem> data)
+        public async Task<LeaveOfAbsence?> FindAsync(Data<LeaveOfAbsence> data)
         {
             var user = await _authenticationService.Find(data.DeviceId);
 
@@ -32,12 +32,12 @@ namespace TrackYourPresenceAPI.Services
                 throw new Exception();
             }
 
-            return await Context.AbsentItems.SingleOrDefaultAsync(
-                w => w.Uuid.ToString() == data.Uuid.ToString() && w.User.Id == user.Id
+            return await Context.LeaveOfAbsences.SingleOrDefaultAsync(
+                lof => lof.Uuid.ToString() == data.Uuid.ToString() && lof.User.Id == user.Id
             );
         }
 
-        public async Task<AbsentItem> CreateAsync(Data<AbsentItem> data)
+        public async Task<LeaveOfAbsence> CreateAsync(Data<LeaveOfAbsence> data)
         {
             var user = await _authenticationService.Find(data.DeviceId);
 
@@ -48,12 +48,12 @@ namespace TrackYourPresenceAPI.Services
 
             data.Entity.User = user;
             data.Entity.Uuid = Guid.NewGuid();
-            var result = await Context.AbsentItems.AddAsync(data.Entity);
+            var result = await Context.LeaveOfAbsences.AddAsync(data.Entity);
             await Context.SaveChangesAsync();
             return result.Entity;
         }
 
-        public async Task<AbsentItem> UpdateAsync(Data<AbsentItem> data)
+        public async Task<LeaveOfAbsence> UpdateAsync(Data<LeaveOfAbsence> data)
         {
             var user = await _authenticationService.Find(data.DeviceId);
 
@@ -63,7 +63,7 @@ namespace TrackYourPresenceAPI.Services
             }
 
             data.Entity.User = user;
-            var result = Context.AbsentItems.Update(data.Entity);
+            var result = Context.LeaveOfAbsences.Update(data.Entity);
             await Context.SaveChangesAsync();
             return result.Entity;
         }

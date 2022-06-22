@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackYourPresence.Views.Settings.SettingsPage">
+    
+    <StackLayout Padding="5">
+        <Label Text="Aantal (Werk)uren per week" FontSize="Medium" Margin="0,5,0,0" />
+        <Entry Keyboard="Numeric" Text="{Binding WorkHours, Mode=TwoWay}" />
+
+        <Label Text="Aantal Vakantiedagen per jaar" FontSize="Medium" Margin="0,5,0,0" />
+        <Entry Keyboard="Numeric" Text="{Binding VacationDays, Mode=TwoWay}" />
+
+        <StackLayout Orientation="Horizontal" Margin="0,5,0,0">
+            <Button Text="Opslaan" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

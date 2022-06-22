@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace TrackYourPresence.Models
 {
     public class User
@@ -8,7 +11,8 @@ namespace TrackYourPresence.Models
         public int VacationDays { get; set; }
 
         public User()
-        {}
+        {
+        }
 
         public User(string deviceId)
         {

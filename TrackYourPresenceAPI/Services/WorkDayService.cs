@@ -12,11 +12,11 @@ namespace TrackYourPresenceAPI.Services
 {
     public class WorkDayService : AbstractBaseService, IWorkDayService
     {
-        private readonly IAuthenticationService authenticationService;
+        private readonly IAuthenticationService _authenticationService;
 
         public WorkDayService(DataContext context, IAuthenticationService authenticationService) : base(context)
         {
-            this.authenticationService = authenticationService;
+            this._authenticationService = authenticationService;
         }
 
         public async Task<IEnumerable<WorkDay>> GetAllAsync(Data<WorkDay> data)
@@ -33,7 +33,7 @@ namespace TrackYourPresenceAPI.Services
 
         public async Task<WorkDay> CreateAsync(Data<WorkDay> data)
         {
-            var user = await authenticationService.Find(data.DeviceId);
+            var user = await _authenticationService.Find(data.DeviceId);
             
             Console.WriteLine(data);
             Console.WriteLine(user);
@@ -54,7 +54,7 @@ namespace TrackYourPresenceAPI.Services
 
         public async Task<WorkDay> UpdateAsync(Data<WorkDay> data)
         {
-            var user = await authenticationService.Find(data.DeviceId);
+            var user = await _authenticationService.Find(data.DeviceId);
             if (user == null || data.Entity == null)
             {
                 throw new Exception();

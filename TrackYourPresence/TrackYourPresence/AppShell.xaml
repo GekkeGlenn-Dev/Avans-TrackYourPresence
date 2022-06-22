@@ -4,6 +4,7 @@
        xmlns:local="clr-namespace:TrackYourPresence.Views"
        xmlns:workdays="clr-namespace:TrackYourPresence.Views.Workdays;assembly=TrackYourPresence"
        xmlns:leaveOfAbsences="clr-namespace:TrackYourPresence.Views.LeaveOfAbsences;assembly=TrackYourPresence"
+       xmlns:settings="clr-namespace:TrackYourPresence.Views.Settings;assembly=TrackYourPresence"
        Title="TrackYourPresence"
        x:Class="TrackYourPresence.AppShell">
 
@@ -91,6 +92,9 @@
     </FlyoutItem>
     <FlyoutItem Title="Verlof" Icon="icon_feed.png">
         <ShellContent Route="LeaveOfAbsencePage" ContentTemplate="{DataTemplate leaveOfAbsences:LeaveOfAbsencesPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Settings" Icon="icon_feed.png">
+        <ShellContent Route="SettingsPage" ContentTemplate="{DataTemplate settings:SettingsPage}" />
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
