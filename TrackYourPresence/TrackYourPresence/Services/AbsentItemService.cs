@@ -2,40 +2,39 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using TrackYourPresence.Models;
 
 namespace TrackYourPresence.Services
 {
-    public class AbsentItemService : AbstractServiceBase, IAbsentItemService
+    public class AbsentItemService : AbstractServiceBase<AbsentItem>, IAbsentItemService
     {
         public async Task<bool> AddItemAsync(AbsentItem item)
         {
-            var response = await HttpPost("https://10.0.2.2:7013/AbsentItem/create", item);
+            var response = await HttpPost(App.GetApiUrl("AbsentItem/create"), item, null);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> UpdateItemAsync(AbsentItem item)
         {
-            var response = await HttpPut("https://10.0.2.2:7013/AbsentItem/update", item);
+            var response = await HttpPut(App.GetApiUrl("AbsentItem/update"), item, null);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteItemAsync(string id)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public async Task<AbsentItem> GetItemAsync(string id)
         {
-            var response = await HttpGet("https://10.0.2.2:7013/AbsentItem/find?uuid=" + id);
+            var response = await HttpGet(App.GetApiUrl("AbsentItem/find"), null, Guid.Parse(id));
             if (response.IsSuccessStatusCode)
             {
                 try
                 {
-                    return await Task.FromResult(JsonConvert.DeserializeObject<AbsentItem>(
-                        await response.Content.ReadAsStringAsync()
-                    ));
+                    return await Task.FromResult(
+                        FromJson<AbsentItem>(await response.Content.ReadAsStringAsync())
+                    );
                 }
                 catch (Exception e)
                 {
@@ -48,15 +47,15 @@ namespace TrackYourPresence.Services
 
         public async Task<IEnumerable<AbsentItem>> GetItemsAsync(bool forceRefresh = false)
         {
-            var response = await HttpGet("https://10.0.2.2:7013/AbsentItem/all");
+            var response = await HttpGet(App.GetApiUrl("AbsentItem/all"), null, null);
 
             if (response.IsSuccessStatusCode)
             {
                 try
                 {
-                    return await Task.FromResult(JsonConvert.DeserializeObject<List<AbsentItem>>(
-                        await response.Content.ReadAsStringAsync()
-                    ));
+                    return await Task.FromResult(
+                        FromJson<List<AbsentItem>>(await response.Content.ReadAsStringAsync())
+                    );
                 }
                 catch (Exception e)
                 {

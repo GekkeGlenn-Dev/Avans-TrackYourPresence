@@ -37,10 +37,15 @@ namespace TrackYourPresenceAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("Uuid")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("AbsentItems");
                 });
@@ -53,10 +58,14 @@ namespace TrackYourPresenceAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
-                    b.Property<Guid?>("DeviceId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("DeviceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WorkHours")
+                    b.Property<int>("VacationDays")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkHours")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -95,6 +104,17 @@ namespace TrackYourPresenceAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("WorkDays");
+                });
+
+            modelBuilder.Entity("TrackYourPresence.Models.AbsentItem", b =>
+                {
+                    b.HasOne("TrackYourPresenceAPI.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TrackYourPresenceAPI.Models.WorkDay", b =>

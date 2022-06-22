@@ -1,26 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TrackYourPresence.Models;
-using Xamarin.Forms.Internals;
 
 namespace TrackYourPresence.Services
 {
-    public class WorkDayService : AbstractServiceBase, IWorkDayService
+    public class WorkDayService : AbstractServiceBase<WorkDay>, IWorkDayService
     {
         public async Task<bool> AddItemAsync(WorkDay item)
         {
-            var response = await HttpPost("https://10.0.2.2:7013/WorkDay/create", item);
+            var response = await HttpPost(App.GetApiUrl("WorkDay/create"), item, null);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> UpdateItemAsync(WorkDay item)
         {
-            var response = await HttpPut("https://10.0.2.2:7013/WorkDay/update", item);
+            var response = await HttpPut(App.GetApiUrl("WorkDay/update"), item, null);
             return response.IsSuccessStatusCode;
         }
 
@@ -31,7 +28,7 @@ namespace TrackYourPresence.Services
 
         public async Task<WorkDay> GetItemAsync(string id)
         {
-            var response = await HttpGet("https://10.0.2.2:7013/WorkDay/find?uuid=" + id);
+            var response = await HttpGet(App.GetApiUrl("WorkDay/find"), null, Guid.Parse(id));
             if (response.IsSuccessStatusCode)
             {
                 try
@@ -51,7 +48,7 @@ namespace TrackYourPresence.Services
 
         public async Task<IEnumerable<WorkDay>> GetItemsAsync(bool forceRefresh = false)
         {
-            var response = await HttpGet("https://10.0.2.2:7013/WorkDay/all");
+            var response = await HttpGet(App.GetApiUrl("WorkDay/all"), null, null);
 
             if (response.IsSuccessStatusCode)
             {
@@ -72,7 +69,7 @@ namespace TrackYourPresence.Services
 
         public async Task<IEnumerable<WorkDay>> GetCurrentWeekAsync(bool forceRefresh = false)
         {
-            var response = await HttpGet("https://10.0.2.2:7013/WorkDay/currentWeek");
+            var response = await HttpGet(App.GetApiUrl("WorkDay/currentWeek"), null, null);
 
             if (response.IsSuccessStatusCode)
             {

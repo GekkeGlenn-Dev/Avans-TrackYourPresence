@@ -1,7 +1,9 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TrackYourPresence.Models;
 using TrackYourPresenceAPI.Data;
+using TrackYourPresenceAPI.DataObjects;
 
 namespace TrackYourPresenceAPI.Controllers
 {
@@ -16,38 +18,59 @@ namespace TrackYourPresenceAPI.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromBody] Data<AbsentItem> data)
         {
-            var deviceId = GetDeviceId();
-            var allWorkDays = await GetAbsentItemService().GetAllAsync();
-            return Ok(ToJson(allWorkDays));
+            try
+            {
+                return Ok(ToJson(await GetAbsentItemService().GetAllAsync(data)));
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet]
         [Route("find")]
-        public async Task<IActionResult> Find(string uuid)
+        public async Task<IActionResult> Find([FromBody] Data<AbsentItem> data)
         {
-            var deviceId = GetDeviceId();
-            var workDay = await GetAbsentItemService().FindAsync(uuid);
-            return workDay != null ? Ok(ToJson(workDay)) : NotFound();
+            try
+            {
+                var workDay = await GetAbsentItemService().FindAsync(data);
+                return workDay != null ? Ok(ToJson(workDay)) : NotFound();
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Create([FromBody] AbsentItem item)
+        public async Task<IActionResult> Create([FromBody] Data<AbsentItem> data)
         {
-            var deviceId = GetDeviceId();
-            var result = await GetAbsentItemService().CreateAsync(item);
-            return Ok(ToJson(result));
+            try
+            {
+                return Ok(ToJson(await GetAbsentItemService().CreateAsync(data)));
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
         }
 
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Update([FromBody] AbsentItem item)
+        public async Task<IActionResult> Update([FromBody] Data<AbsentItem> data)
         {
-            var deviceId = GetDeviceId();
-            var result = await GetAbsentItemService().UpdateAsync(item);
-            return Ok(ToJson(result));
+            try
+            {
+                return Ok(ToJson(await GetAbsentItemService().UpdateAsync(data)));
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
         }
     }
 }

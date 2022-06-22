@@ -6,45 +6,68 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TrackYourPresenceAPI.Data;
+using TrackYourPresenceAPI.DataObjects;
 using TrackYourPresenceAPI.Models;
 
 namespace TrackYourPresenceAPI.Services
 {
-    public class WorkDayService : IWorkDayService
+    public class WorkDayService : AbstractBaseService, IWorkDayService
     {
-        private DataContext _context;
+        private readonly IAuthenticationService authenticationService;
 
-        public WorkDayService(DataContext context)
+        public WorkDayService(DataContext context, IAuthenticationService authenticationService) : base(context)
         {
-            _context = context;
+            this.authenticationService = authenticationService;
         }
 
-        public async Task<IEnumerable<WorkDay>> GetAllAsync()
+        public async Task<IEnumerable<WorkDay>> GetAllAsync(Data<WorkDay> data)
         {
-            return await _context.WorkDays.ToListAsync();
+            return await Context.WorkDays.ToListAsync();
         }
 
-        public async Task<WorkDay?> FindAsync(string id)
+        public async Task<WorkDay?> FindAsync(Data<WorkDay> data)
         {
-            return await _context.WorkDays.SingleOrDefaultAsync(w => w.Uuid.ToString() == id);
+            return await Context.WorkDays.SingleOrDefaultAsync(
+                w => w.Uuid.ToString() == data.Uuid.ToString() && w.User.DeviceId == data.DeviceId
+            );
         }
 
-        public async Task<WorkDay> CreateAsync(WorkDay workDay)
+        public async Task<WorkDay> CreateAsync(Data<WorkDay> data)
         {
-            workDay.Uuid = Guid.NewGuid();
-            var result = await _context.WorkDays.AddAsync(workDay);
-            await _context.SaveChangesAsync();
+            var user = await authenticationService.Find(data.DeviceId);
+            
+            Console.WriteLine(data);
+            Console.WriteLine(user);
+            Console.WriteLine(data.Entity);
+            Console.WriteLine(data.DeviceId);
+            
+            if (user == null || data.Entity == null)
+            {
+                throw new Exception();
+            }
+
+            data.Entity.Uuid = Guid.NewGuid();
+            data.Entity.User = user;
+            var result = await Context.WorkDays.AddAsync(data.Entity);
+            await Context.SaveChangesAsync();
             return result.Entity;
         }
 
-        public async Task<WorkDay> UpdateAsync(WorkDay workDay)
+        public async Task<WorkDay> UpdateAsync(Data<WorkDay> data)
         {
-            var result = _context.WorkDays.Update(workDay);
-            await _context.SaveChangesAsync();
+            var user = await authenticationService.Find(data.DeviceId);
+            if (user == null || data.Entity == null)
+            {
+                throw new Exception();
+            }
+
+            data.Entity.User = user;
+            var result = Context.WorkDays.Update(data.Entity);
+            await Context.SaveChangesAsync();
             return result.Entity;
         }
 
-        public async Task<IEnumerable<WorkDay>> GetCurrentWeek()
+        public async Task<IEnumerable<WorkDay>> GetCurrentWeek(Data<WorkDay> data)
         {
             var weekRange = GetDateTimeCurrentWeekRange();
             var workDayWeekRange = new List<WorkDay>();
@@ -62,11 +85,11 @@ namespace TrackYourPresenceAPI.Services
             var start = weekRange.First();
             var end = weekRange.Last();
 
-            var workDayWeekRangeFromDb = await _context.WorkDays
-                .Where(f =>
-                    f.Date >= start && f.Date <= end
+            var workDayWeekRangeFromDb = await Context.WorkDays
+                .Where(wd =>
+                    wd.Date >= start && wd.Date <= end && wd.User.DeviceId == data.DeviceId
                 ).ToListAsync();
-            
+
             workDayWeekRange.ForEach(wd =>
             {
                 WorkDay? result = null;
@@ -81,7 +104,6 @@ namespace TrackYourPresenceAPI.Services
                 catch (Exception e)
                 {
                     // ignored
-                    Debug.WriteLine(e.StackTrace);
                 }
 
                 if (result != null)

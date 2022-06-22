@@ -9,22 +9,24 @@ namespace TrackYourPresenceAPI.Controllers
     public abstract class AbstractBaseController : ControllerBase
     {
         private DataContext _context;
+        private IAuthenticationService _authenticationService;
         private IWorkDayService _workDayService;
         private IAbsentItemService _absentItemService;
 
         protected AbstractBaseController(DataContext context)
         {
             _context = context;
-            _workDayService = new WorkDayService(context);
-            _absentItemService = new AbsentItemService(context);
+            _authenticationService = new AuthenticationService(context);
+            _workDayService = new WorkDayService(context, GetAuthenticationService());
+            _absentItemService = new AbsentItemService(context, GetAuthenticationService());
         }
 
-        protected Task<bool> ValidateRequest()
+        protected async Task<bool> ValidateRequest()
         {
-            var apiToken = "emptiness"; 
-            var user = GetContext().Users.SingleOrDefaultAsync(u => u.DeviceId.ToString() == apiToken);
-            
-            return Task.FromResult(user != null);
+            var apiToken = "emptiness";
+            var user = await GetContext().Users.SingleOrDefaultAsync(u => u.DeviceId.ToString() == apiToken);
+
+            return user != null;
         }
 
         protected DataContext GetContext()
@@ -42,14 +44,15 @@ namespace TrackYourPresenceAPI.Controllers
             return _absentItemService;
         }
 
-        protected string GetDeviceId()
+        protected IAuthenticationService GetAuthenticationService()
         {
-            return Request.Headers["api-token"];
+            return _authenticationService;
         }
 
         protected string ToJson(object obj)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(obj);;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+            ;
         }
     }
 }

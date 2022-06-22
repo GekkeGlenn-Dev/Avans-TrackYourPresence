@@ -1,43 +1,70 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TrackYourPresence.Models;
 using TrackYourPresenceAPI.Data;
+using TrackYourPresenceAPI.DataObjects;
 
 namespace TrackYourPresenceAPI.Services
 {
-    public class AbsentItemService : IAbsentItemService
+    public class AbsentItemService : AbstractBaseService, IAbsentItemService
     {
-        private DataContext _context;
+        private IAuthenticationService authenticationService;
 
-        public AbsentItemService(DataContext context)
+        public AbsentItemService(DataContext context, IAuthenticationService authenticationService) : base(context)
         {
-            _context = context;
+            this.authenticationService = authenticationService;
         }
 
-        public async Task<IEnumerable<AbsentItem>> GetAllAsync()
+        public async Task<IEnumerable<AbsentItem>> GetAllAsync(Data<AbsentItem> data)
         {
-            return await _context.AbsentItems.ToListAsync();
+            return await Context.AbsentItems.Where(i => i.User.DeviceId == data.DeviceId).ToListAsync();
         }
 
-        public async Task<AbsentItem?> FindAsync(string id)
+        public async Task<AbsentItem?> FindAsync(Data<AbsentItem> data)
         {
-            return await _context.AbsentItems.SingleOrDefaultAsync(w => w.Uuid.ToString() == id);
+            var user = await authenticationService.Find(data.DeviceId);
+
+            if (user == null)
+            {
+                throw new Exception();
+            }
+
+            return await Context.AbsentItems.SingleOrDefaultAsync(
+                w => w.Uuid.ToString() == data.Uuid.ToString() && w.User.Id == user.Id
+            );
         }
 
-        public async Task<AbsentItem> CreateAsync(AbsentItem absentItem)
+        public async Task<AbsentItem> CreateAsync(Data<AbsentItem> data)
         {
-            absentItem.Uuid = Guid.NewGuid();
-            var result = await _context.AbsentItems.AddAsync(absentItem);
-            await _context.SaveChangesAsync();
+            var user = await authenticationService.Find(data.DeviceId);
+
+            if (user == null || data.Entity == null)
+            {
+                throw new Exception();
+            }
+
+            data.Entity.User = user;
+            data.Entity.Uuid = Guid.NewGuid();
+            var result = await Context.AbsentItems.AddAsync(data.Entity);
+            await Context.SaveChangesAsync();
             return result.Entity;
         }
 
-        public async Task<AbsentItem> UpdateAsync(AbsentItem absentItem)
+        public async Task<AbsentItem> UpdateAsync(Data<AbsentItem> data)
         {
-            var result = _context.AbsentItems.Update(absentItem);
-            await _context.SaveChangesAsync();
+            var user = await authenticationService.Find(data.DeviceId);
+
+            if (user == null || data.Entity == null)
+            {
+                throw new Exception();
+            }
+
+            data.Entity.User = user;
+            var result = Context.AbsentItems.Update(data.Entity);
+            await Context.SaveChangesAsync();
             return result.Entity;
         }
     }

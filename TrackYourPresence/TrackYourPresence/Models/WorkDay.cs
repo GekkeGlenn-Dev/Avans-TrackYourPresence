@@ -5,6 +5,7 @@ namespace TrackYourPresence.Models
 {
     public class WorkDay
     {
+        public int? Id { get; set; }
         public string Uuid { get; set; }
         public DateTime Date { get; set; }
         public DateTime StartTime { get; set; }

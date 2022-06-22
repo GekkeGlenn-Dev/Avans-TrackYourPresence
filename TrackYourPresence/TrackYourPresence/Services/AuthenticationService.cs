@@ -1,30 +1,48 @@
 #nullable enable
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Plugin.DeviceInfo;
 using TrackYourPresence.Models;
 
 namespace TrackYourPresence.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthenticationService : AbstractServiceBase<User>, IAuthenticationService
     {
         private static User? _user;
 
-        private async Task LoginUser()
+        public async Task LoginUser()
         {
-            // api call with this device id.
-            // returns object for user.
+            var user = new User(CrossDeviceInfo.Current.Id);
+            var response = await HttpPost(App.GetApiUrl("/Authentication/login"), user, null);
 
-            _user = new User(CrossDeviceInfo.Current.Id);
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    _user = FromJson<User>(await response.Content.ReadAsStringAsync());
+                    return;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Response Code:" + response.StatusCode);
+            }
+
+            _user = user;
         }
 
         public async Task<User> GetUser()
         {
-            if (_user != null)
+            if (_user == null)
             {
-                return _user;
+                await LoginUser();
             }
 
-            await LoginUser();
             return _user;
         }
     }

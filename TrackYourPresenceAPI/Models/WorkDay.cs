@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace TrackYourPresenceAPI.Models
 {
     public class WorkDay
     {
+        [Key]
         public int? id { get; set; }
         public Guid? Uuid { get; set; }
         public User? User { get; set; }
