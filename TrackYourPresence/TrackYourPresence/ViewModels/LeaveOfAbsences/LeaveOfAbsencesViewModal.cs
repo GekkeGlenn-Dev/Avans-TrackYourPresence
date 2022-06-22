@@ -24,7 +24,7 @@ namespace TrackYourPresence.ViewModels.LeaveOfAbsences
             LeaveOfAbsences = new();
 
             LoadLeaveOfAbsenceCommand = new(async () => await ExecuteLoadLeaveOfAbsenceCommand());
-            LeaveOfAbsenceTapped = new(OnAddLeaveOfAbsence);
+            LeaveOfAbsenceTapped = new(OnLeaveOfAbsenceSelected);
             AddLeaveOfAbsenceCommand = new(OnAddLeaveOfAbsence);
         }
 

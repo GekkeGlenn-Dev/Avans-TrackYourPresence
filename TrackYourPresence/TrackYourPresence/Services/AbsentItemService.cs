@@ -10,10 +10,7 @@ namespace TrackYourPresence.Services
     {
         public async Task<bool> AddItemAsync(AbsentItem item)
         {
-            Debug.WriteLine("Execute post");
             var response = await HttpPost(App.GetApiUrl("AbsentItem/create"), item, null);
-            Debug.WriteLine(await response.Content.ReadAsStringAsync());
-            Debug.WriteLine("Done");
             return response.IsSuccessStatusCode;
         }
 

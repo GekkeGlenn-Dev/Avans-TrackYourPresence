@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using TrackYourPresence.Models;
 
 namespace TrackYourPresence.Services
@@ -33,7 +32,7 @@ namespace TrackYourPresence.Services
             {
                 try
                 {
-                    return await Task.FromResult(JsonConvert.DeserializeObject<WorkDay>(
+                    return await Task.FromResult(FromJson<WorkDay>(
                         await response.Content.ReadAsStringAsync()
                     ));
                 }
@@ -54,7 +53,7 @@ namespace TrackYourPresence.Services
             {
                 try
                 {
-                    return await Task.FromResult(JsonConvert.DeserializeObject<List<WorkDay>>(
+                    return await Task.FromResult(FromJson<List<WorkDay>>(
                         await response.Content.ReadAsStringAsync()
                     ));
                 }
@@ -75,7 +74,7 @@ namespace TrackYourPresence.Services
             {
                 try
                 {
-                    return await Task.FromResult(JsonConvert.DeserializeObject<List<WorkDay>>(
+                    return await Task.FromResult(FromJson<List<WorkDay>>(
                         await response.Content.ReadAsStringAsync()
                     ));
                 }
