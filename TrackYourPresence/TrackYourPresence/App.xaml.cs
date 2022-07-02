@@ -7,9 +7,6 @@ namespace TrackYourPresence
 {
     public partial class App : Application
     {
-        public static string DeviceId { get; } = CrossDeviceInfo.Current.Id;
-        public static string ApiBaseUri { get; } = "https://10.0.2.2:7013";
-
         public App()
         {
             InitializeComponent();
@@ -24,13 +21,9 @@ namespace TrackYourPresence
             LoginUser();
         }
 
-        protected override void OnSleep()
-        {
-        }
+        protected override void OnSleep() { }
 
-        protected override void OnResume()
-        {
-        }
+        protected override void OnResume() { }
 
         private void RegisterServices()
         {
@@ -44,13 +37,6 @@ namespace TrackYourPresence
         {
             var authenticationService = DependencyService.Get<IAuthenticationService>();
             authenticationService.LoginUser();
-        }
-
-        public static string GetApiUrl(string path)
-        {
-            return path.StartsWith("/")
-                ? ApiBaseUri + path
-                : ApiBaseUri + "/" + path;
         }
     }
 }

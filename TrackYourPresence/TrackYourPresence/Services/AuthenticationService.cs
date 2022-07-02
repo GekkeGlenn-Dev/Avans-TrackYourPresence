@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Plugin.DeviceInfo;
+using TrackYourPresence.Helpers;
 using TrackYourPresence.Models;
 
 namespace TrackYourPresence.Services
@@ -14,7 +15,7 @@ namespace TrackYourPresence.Services
         public async Task LoginUser()
         {
             var user = new User(CrossDeviceInfo.Current.Id);
-            var response = await HttpPost(App.GetApiUrl("/Authentication/login"), user, null);
+            var response = await HttpPost(Api.GetApiUrl("/Authentication/login"), user, null);
 
             if (response.IsSuccessStatusCode)
             {
@@ -48,7 +49,7 @@ namespace TrackYourPresence.Services
 
         public async void UpdateUser(User user)
         {
-            var response = await HttpPost(App.GetApiUrl("/Authentication/login"), user, null);
+            var response = await HttpPost(Api.GetApiUrl("/Authentication/login"), user, null);
             if (response.IsSuccessStatusCode)
             {
                 try

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using TrackYourPresence.Helpers;
 using TrackYourPresence.Models;
 
 namespace TrackYourPresence.Services
@@ -10,13 +11,13 @@ namespace TrackYourPresence.Services
     {
         public async Task<bool> AddItemAsync(WorkDay item)
         {
-            var response = await HttpPost(App.GetApiUrl("WorkDay/create"), item, null);
+            var response = await HttpPost(Api.GetApiUrl("WorkDay/create"), item, null);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> UpdateItemAsync(WorkDay item)
         {
-            var response = await HttpPut(App.GetApiUrl("WorkDay/update"), item, null);
+            var response = await HttpPut(Api.GetApiUrl("WorkDay/update"), item, null);
             return response.IsSuccessStatusCode;
         }
 
@@ -27,7 +28,7 @@ namespace TrackYourPresence.Services
 
         public async Task<WorkDay> GetItemAsync(string id)
         {
-            var response = await HttpGet(App.GetApiUrl("WorkDay/find"), null, Guid.Parse(id));
+            var response = await HttpGet(Api.GetApiUrl("WorkDay/find"), null, Guid.Parse(id));
             if (response.IsSuccessStatusCode)
             {
                 try
@@ -47,7 +48,7 @@ namespace TrackYourPresence.Services
 
         public async Task<IEnumerable<WorkDay>> GetItemsAsync(bool forceRefresh = false)
         {
-            var response = await HttpGet(App.GetApiUrl("WorkDay/all"), null, null);
+            var response = await HttpGet(Api.GetApiUrl("WorkDay/all"), null, null);
 
             if (response.IsSuccessStatusCode)
             {
@@ -68,7 +69,7 @@ namespace TrackYourPresence.Services
 
         public async Task<IEnumerable<WorkDay>> GetCurrentWeekAsync(bool forceRefresh = false)
         {
-            var response = await HttpGet(App.GetApiUrl("WorkDay/currentWeek"), null, null);
+            var response = await HttpGet(Api.GetApiUrl("WorkDay/currentWeek"), null, null);
 
             if (response.IsSuccessStatusCode)
             {

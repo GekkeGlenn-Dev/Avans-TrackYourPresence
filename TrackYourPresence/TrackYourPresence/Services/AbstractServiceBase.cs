@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Plugin.DeviceInfo;
 
 namespace TrackYourPresence.Services
 {
@@ -85,7 +86,7 @@ namespace TrackYourPresence.Services
         {
             return new()
             {
-                DeviceId = App.DeviceId,
+                DeviceId = CrossDeviceInfo.Current.Id,
                 Uuid = guid,
                 Entity = obj,
             };

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using TrackYourPresence.Helpers;
 using TrackYourPresence.Models;
 
 namespace TrackYourPresence.Services
@@ -10,13 +11,13 @@ namespace TrackYourPresence.Services
     {
         public async Task<bool> AddItemAsync(AbsentItem item)
         {
-            var response = await HttpPost(App.GetApiUrl("AbsentItem/create"), item, null);
+            var response = await HttpPost(Api.GetApiUrl("AbsentItem/create"), item, null);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> UpdateItemAsync(AbsentItem item)
         {
-            var response = await HttpPut(App.GetApiUrl("AbsentItem/update"), item, null);
+            var response = await HttpPut(Api.GetApiUrl("AbsentItem/update"), item, null);
             return response.IsSuccessStatusCode;
         }
 
@@ -27,7 +28,7 @@ namespace TrackYourPresence.Services
 
         public async Task<AbsentItem> GetItemAsync(string id)
         {
-            var response = await HttpGet(App.GetApiUrl("AbsentItem/find"), null, Guid.Parse(id));
+            var response = await HttpGet(Api.GetApiUrl("AbsentItem/find"), null, Guid.Parse(id));
             if (response.IsSuccessStatusCode)
             {
                 try
@@ -47,7 +48,7 @@ namespace TrackYourPresence.Services
 
         public async Task<IEnumerable<AbsentItem>> GetItemsAsync(bool forceRefresh = false)
         {
-            var response = await HttpGet(App.GetApiUrl("AbsentItem/all"), null, null);
+            var response = await HttpGet(Api.GetApiUrl("AbsentItem/all"), null, null);
 
             if (response.IsSuccessStatusCode)
             {

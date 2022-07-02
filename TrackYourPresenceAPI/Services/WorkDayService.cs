@@ -26,7 +26,8 @@ namespace TrackYourPresenceAPI.Services
 
         public async Task<WorkDay?> FindAsync(Data<WorkDay> data)
         {
-            return await Context.WorkDays.SingleOrDefaultAsync(
+            return await Context.WorkDays
+                .SingleOrDefaultAsync(
                 w => w.Uuid.ToString() == data.Uuid.ToString() && w.User.DeviceId == data.DeviceId
             );
         }

@@ -9,9 +9,13 @@ namespace TrackYourPresenceAPI.Data
     {
         protected readonly IConfiguration Configuration;
 
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
-        {
-        }
+        /**
+         * This Constructor is added for testing only.
+         * Otherwise this class was not mockable.
+         */
+        public DataContext() : this(new DbContextOptions<DataContext>()) { }
+
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<WorkDay> WorkDays { get; set; }

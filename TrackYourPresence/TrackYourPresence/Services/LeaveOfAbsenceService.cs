@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using TrackYourPresence.Helpers;
 using TrackYourPresence.Models;
 
 namespace TrackYourPresence.Services
@@ -10,7 +11,7 @@ namespace TrackYourPresence.Services
     {
         public async Task<bool> AddItemAsync(LeaveOfAbsence item)
         {
-            var result = await HttpPost(App.GetApiUrl("LeaveOfAbsence/create"), item, null);
+            var result = await HttpPost(Api.GetApiUrl("LeaveOfAbsence/create"), item, null);
             Debug.WriteLine(result.StatusCode);
             Debug.WriteLine(await result.Content.ReadAsStringAsync());
             return result.IsSuccessStatusCode;
@@ -28,7 +29,7 @@ namespace TrackYourPresence.Services
 
         public async Task<LeaveOfAbsence> GetItemAsync(string id)
         {
-            var response = await HttpGet(App.GetApiUrl("LeaveOfAbsence/find"), null, Guid.Parse(id));
+            var response = await HttpGet(Api.GetApiUrl("LeaveOfAbsence/find"), null, Guid.Parse(id));
             if (response.IsSuccessStatusCode)
             {
                 try
@@ -48,7 +49,7 @@ namespace TrackYourPresence.Services
 
         public async Task<IEnumerable<LeaveOfAbsence>> GetItemsAsync(bool forceRefresh = false)
         {
-            var response = await HttpGet(App.GetApiUrl("LeaveOfAbsence/all"), null, null);
+            var response = await HttpGet(Api.GetApiUrl("LeaveOfAbsence/all"), null, null);
 
             if (response.IsSuccessStatusCode)
             {
